@@ -1,0 +1,80 @@
+{% extends "admin_base.html" %}
+{% block content %}
+<div class="panel">
+  <h2>Orders</h2>
+  <form method="post">
+    <div class="grid">
+      <div class="field">
+        <label for="customer_name">Customer Name</label>
+        <input id="customer_name" name="customer_name" type="text" required />
+      </div>
+      <div class="field">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="text" required />
+      </div>
+      <div class="field">
+        <label for="delivery_area">Delivery Area</label>
+        <input id="delivery_area" name="delivery_area" type="text" required />
+      </div>
+      <div class="field">
+        <label for="total_amount">Total Amount</label>
+        <input id="total_amount" name="total_amount" type="number" step="0.01" required />
+      </div>
+      <div class="field">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="New">New</option>
+          <option value="Preparing">Preparing</option>
+          <option value="Out for delivery">Out for delivery</option>
+          <option value="Completed">Completed</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label for="items">Items</label>
+      <textarea id="items" name="items" required></textarea>
+    </div>
+    <div class="field">
+      <label for="notes">Notes</label>
+      <textarea id="notes" name="notes"></textarea>
+    </div>
+    <button class="btn" type="submit">Add Order</button>
+  </form>
+</div>
+
+<div class="panel">
+  <h2>Recent Orders</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Customer</th>
+        <th>Phone</th>
+        <th>Area</th>
+        <th>Status</th>
+        <th>Total</th>
+        <th>Created</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td>{{ order.customer_name }}</td>
+        <td>{{ order.phone }}</td>
+        <td>{{ order.delivery_area }}</td>
+        <td><span class="badge">{{ order.status }}</span></td>
+        <td>₹{{ order.total_amount }}</td>
+        <td>{{ order.created_at }}</td>
+        <td class="actions">
+          <a class="btn secondary" href="/admin/orders/{{ order.id }}/edit">Edit</a>
+          <form method="post" action="/admin/orders/{{ order.id }}/delete">
+            <button class="btn" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "public_base.html" %}
+{% block content %}
+<section class="menu" style="padding-top: 2rem;">
+  <div class="section__title">
+    <p class="eyebrow">Open Cart</p>
+    <h2>Review your cart and pay fast.</h2>
+  </div>
+  <div class="menu__grid">
+    <article class="menu__card">
+      <h3>Your cart</h3>
+      {% if cart_items %}
+      <p>Update quantities, then pay or call us to complete your order.</p>
+      <div class="card__list" style="margin-top: 1rem;">
+        {% for item in cart_items %}
+        <div class="card__item">
+          <span>{{ item.name }} (x{{ item.qty }})</span>
+          <span>₹{{ item.line_total }}</span>
+        </div>
+        <div class="hero__actions" style="margin: 0.6rem 0 1rem;">
+          <form method="post" action="/cart/add/{{ item.id }}">
+            <button class="ghost" type="submit">+ Add one</button>
+          </form>
+          <form method="post" action="/cart/remove/{{ item.id }}">
+            <button class="ghost" type="submit">- Remove one</button>
+          </form>
+        </div>
+        {% endfor %}
+        <div class="card__item">
+          <span>Delivery</span>
+          <span>₹{{ delivery_fee }}</span>
+        </div>
+      </div>
+      <div class="menu__meta" style="margin-top: 1.2rem;">
+        <span>Total</span>
+        <span>₹{{ total }}</span>
+      </div>
+      <div class="hero__actions" style="margin-top: 1.5rem;">
+        <button class="primary" type="button">Pay now</button>
+        <a class="ghost" href="tel:+917973193983">Call to order</a>
+        <form method="post" action="/cart/clear">
+          <button class="ghost" type="submit">Clear cart</button>
+        </form>
+      </div>
+      <p class="form__note" style="margin-top: 0.5rem;">Payment is a placeholder for now.</p>
+      {% else %}
+      <p>Your cart is empty. Add items from the menu to get started.</p>
+      <div class="hero__actions" style="margin-top: 1.5rem;">
+        <a class="primary" href="/menu">Browse menu</a>
+        <a class="ghost" href="tel:+917973193983">Call to order</a>
+      </div>
+      {% endif %}
+    </article>
+  </div>
+</section>
+{% endblock %}

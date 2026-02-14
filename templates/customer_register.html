@@ -1,0 +1,36 @@
+{% extends "public_base.html" %}
+{% block content %}
+<section class="order" style="padding-top: 2rem;">
+  <div class="order__content">
+    <p class="eyebrow">Customer sign up</p>
+    <h2>Join the kitchen list.</h2>
+    <p>Create your account to track orders and personalize your menu.</p>
+  </div>
+  <form class="order__form" method="post" style="max-width: 560px;">
+    {% if error %}
+    <p class="form__error">{{ error }}</p>
+    {% endif %}
+    <label>
+      Name
+      <input type="text" name="name" required />
+    </label>
+    <label>
+      Email
+      <input type="email" name="email" required />
+    </label>
+    <label>
+      Phone
+      <input type="text" name="phone" required />
+    </label>
+    <label>
+      Address
+      <textarea name="address" required></textarea>
+    </label>
+    <label>
+      Password
+      <input type="password" name="password" required />
+    </label>
+    <button class="primary" type="submit">Create account</button>
+  </form>
+</section>
+{% endblock %}

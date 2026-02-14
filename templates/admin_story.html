@@ -1,0 +1,98 @@
+{% extends "admin_base.html" %}
+{% block content %}
+<div class="panel">
+  <h2>Story Highlights</h2>
+  <form method="post">
+    <input type="hidden" name="form_type" value="highlight" />
+    <div class="grid">
+      <div class="field">
+        <label for="title">Title</label>
+        <input id="title" name="title" type="text" required />
+      </div>
+      <div class="field">
+        <label for="body">Body</label>
+        <input id="body" name="body" type="text" required />
+      </div>
+    </div>
+    <button class="btn" type="submit">Add Highlight</button>
+  </form>
+</div>
+
+<div class="panel">
+  <h2>Current Highlights</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Body</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for highlight in highlights %}
+      <tr>
+        <td>{{ highlight.title }}</td>
+        <td>{{ highlight.body }}</td>
+        <td class="actions">
+          <a class="btn secondary" href="/admin/story/highlight/{{ highlight.id }}/edit">Edit</a>
+          <form method="post" action="/admin/story/highlight/{{ highlight.id }}/delete">
+            <button class="btn" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="panel">
+  <h2>Story Panels (Hours, Radius, Specials)</h2>
+  <form method="post">
+    <input type="hidden" name="form_type" value="panel" />
+    <div class="grid">
+      <div class="field">
+        <label for="label">Label</label>
+        <input id="label" name="label" type="text" required />
+      </div>
+      <div class="field">
+        <label for="value">Value</label>
+        <input id="value" name="value" type="text" required />
+      </div>
+      <div class="field">
+        <label for="sort_order">Sort Order</label>
+        <input id="sort_order" name="sort_order" type="number" value="0" />
+      </div>
+    </div>
+    <button class="btn" type="submit">Add Panel Item</button>
+  </form>
+</div>
+
+<div class="panel">
+  <h2>Current Panel Items</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Label</th>
+        <th>Value</th>
+        <th>Order</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for panel in panels %}
+      <tr>
+        <td>{{ panel.label }}</td>
+        <td>{{ panel.value }}</td>
+        <td>{{ panel.sort_order }}</td>
+        <td class="actions">
+          <a class="btn secondary" href="/admin/story/panel/{{ panel.id }}/edit">Edit</a>
+          <form method="post" action="/admin/story/panel/{{ panel.id }}/delete">
+            <button class="btn" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

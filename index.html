@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Swaad-e-Bihar | Cloud Kitchen</title>
+    <meta name="description" content="Swaad-e-Bihar is a cloud kitchen serving bold, authentic Bihari flavors with fast delivery." />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=Archivo:wdth,wght@100,400;100,600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="grain"></div>
+    <header class="hero">
+      <nav class="nav">
+        <div class="brand">
+          <img class="brand__logo" src="{{ url_for('static', filename='logo.png.jpeg') }}" alt="Swaad-e-Bihar logo" />
+          <div>
+            <p class="brand__name">Swaad-e-Bihar</p>
+            <p class="brand__tag">Cloud Kitchen</p>
+          </div>
+        </div>
+        <div class="nav__links">
+          <a href="/menu">Menu</a>
+          <a href="/story">Our Story</a>
+          <a href="/order">Order</a>
+          <a href="/cart">Open Cart</a>
+          <a href="/contact">Contact</a>
+          <a href="/customer/login">Login</a>
+        </div>
+        <a class="nav__cta" href="/order">Order Now</a>
+      </nav>
+
+      <div class="hero__content">
+        <div class="hero__text">
+          <p class="eyebrow">Bold Bihari flavors, cooked fresh daily.</p>
+          <h1>Cloud-kitchen comfort with <span>village roots</span>.</h1>
+          <p class="lead">
+            Swaad-e-Bihar delivers handcrafted litti, chokha, and slow-cooked
+            classics packed for heat-lock freshness.
+          </p>
+          <div class="hero__actions">
+            <button class="primary">Start Order</button>
+            <button class="ghost">Explore Menu</button>
+          </div>
+          <div class="hero__stats">
+            <div>
+              <p class="stat">30 min</p>
+              <p class="stat__label">Average delivery</p>
+            </div>
+            <div>
+              <p class="stat">60+</p>
+              <p class="stat__label">Signature dishes</p>
+            </div>
+            <div>
+              <p class="stat">4.8</p>
+              <p class="stat__label">Customer rating</p>
+            </div>
+          </div>
+        </div>
+        <div class="hero__card">
+          <div class="card__header">
+            <p class="card__title">Today\'s Kitchen Board</p>
+            <p class="card__subtitle">Limited batches, chef-curated.</p>
+          </div>
+          <div class="card__list">
+            <div class="card__item">
+              <span>2 PC CHICKEN + 2 LITTI</span>
+              <span>₹279</span>
+            </div>
+            <div class="card__item">
+              <span>4 PC CHICKEN + 4 LITTI</span>
+              <span>₹429</span>
+            </div>
+            <div class="card__item">
+              <span>2 PC LITTI + CHOKHA</span>
+              <span>₹90</span>
+            </div>
+            <div class="card__item">
+              <span>CHICKEN THALI</span>
+              <span>₹119</span>
+            </div>
+          </div>
+          <button class="secondary">View Full Menu</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="menu" class="menu">
+        <div class="section__title">
+          <p class="eyebrow">Signature spreads</p>
+          <h2>Cloud kitchen menu, plated with care.</h2>
+        </div>
+        <div class="menu__grid">
+          {% for item in menu_items %}
+          <article class="menu__card">
+            {% if item.image_path %}
+            <img src="/uploads/{{ item.image_path }}" alt="{{ item.name }}" />
+            {% endif %}
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description }}</p>
+            <div class="menu__meta">
+              <span>{{ item.category }}</span>
+              <span>₹{{ item.price }}</span>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section id="story" class="story">
+        <div class="story__content">
+          <p class="eyebrow">Our story</p>
+          <h2>From Patna lanes to your plate.</h2>
+          <p>
+            We are a cloud kitchen born out of family recipes. Every batch is
+            cooked in small quantities to keep the aroma intact, sealed hot, and
+            dispatched fast so the taste of Bihar reaches you like it came from
+            home.
+          </p>
+          <div class="story__highlights">
+            {% for highlight in story_highlights %}
+            <div>
+              <h3>{{ highlight.title }}</h3>
+              <p>{{ highlight.body }}</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="story__panel">
+          {% for panel in story_panels %}
+          <div class="panel__item">
+            <p>{{ panel.label }}</p>
+            <span>{{ panel.value }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section id="order" class="order">
+        <div class="order__content">
+          <p class="eyebrow">Order in a tap</p>
+          <h2>Choose the aroma. We handle the rest.</h2>
+          <div class="order__steps">
+            <div>
+              <span>01</span>
+              <p>Pick your meal and spice level.</p>
+            </div>
+            <div>
+              <span>02</span>
+              <p>Track the cooking timeline live.</p>
+            </div>
+            <div>
+              <span>03</span>
+              <p>Get it delivered with heat-lock packaging.</p>
+            </div>
+          </div>
+        </div>
+        <form class="order__form" method="post" action="/order/request">
+          {% if order_status == "success" %}
+          <p class="form__success">Order received! We will call to confirm shortly.</p>
+          {% elif order_status == "error" %}
+          <p class="form__error">Please fill all fields before sending your order.</p>
+          {% endif %}
+          <label>
+            Name
+            <input type="text" name="name" placeholder="Your name" required />
+          </label>
+          <label>
+            Phone
+            <input type="tel" name="phone" placeholder="+91" required />
+          </label>
+          <label>
+            Delivery area
+            <input type="text" name="area" placeholder="Neighborhood" required />
+          </label>
+          <label>
+            Order details
+            <textarea name="items" placeholder="List items and spice level" required></textarea>
+          </label>
+          <label>
+            Notes (optional)
+            <textarea name="notes" placeholder="Any special requests"></textarea>
+          </label>
+          <button class="primary" type="submit">Send Order Request</button>
+          <a class="primary" href="tel:+917973193983">Call the kitchen</a>
+          <p class="form__note">Call to confirm availability and delivery time.</p>
+        </form>
+      </section>
+
+      <section id="contact" class="contact">
+        <div class="contact__wrap">
+          <div>
+            <p class="eyebrow">Let\'s connect</p>
+            <h2>Ready for a Bihar feast?</h2>
+            <p>
+              Text us on WhatsApp, schedule a catering tasting, or drop by our
+              pickup window.
+            </p>
+          </div>
+          <div class="contact__card">
+            <p>Contact</p>
+            <h3>{{ contact.phone }}</h3>
+            <p>{{ contact.email }}</p>
+            <p>{{ contact.location }}</p>
+            <a class="ghost" href="{{ contact.whatsapp }}">Chat on WhatsApp</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 Swaad-e-Bihar. Crafted with Bihar in every bite.</p>
+      <div class="footer__links">
+        <a href="#menu">Menu</a>
+        <a href="#story">Story</a>
+        <a href="#order">Order</a>
+      </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>

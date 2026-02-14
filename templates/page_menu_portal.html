@@ -1,0 +1,32 @@
+{% extends "public_base.html" %}
+{% block content %}
+<section class="menu" style="padding-top: 2rem;">
+  <div class="section__title">
+    <p class="eyebrow">Menu portal</p>
+    <h2>Select items and add to cart.</h2>
+  </div>
+  <div class="menu__portal">
+    {% for item in menu_items %}
+    <div class="menu__card menu__row">
+      <div>
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.description }}</p>
+        <div class="menu__meta">
+          <span>{{ item.category }}</span>
+          <span>₹{{ item.price }}</span>
+        </div>
+      </div>
+      <div class="menu__controls">
+        <span class="qty-badge">Qty: {{ cart_qty.get(item.id, 0) }}</span>
+        <form method="post" action="/cart/add/{{ item.id }}">
+          <button class="primary" type="submit">Add</button>
+        </form>
+        <form method="post" action="/cart/remove/{{ item.id }}">
+          <button class="ghost" type="submit">Remove</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

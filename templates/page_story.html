@@ -1,0 +1,30 @@
+{% extends "public_base.html" %}
+{% block content %}
+<section class="story" style="margin-top: 2rem;">
+  <div class="story__content">
+    <p class="eyebrow">Our story</p>
+    <h2>From Patna lanes to your plate.</h2>
+    <p>
+      We are a cloud kitchen born out of family recipes. Every batch is cooked in
+      small quantities to keep the aroma intact, sealed hot, and dispatched fast
+      so the taste of Bihar reaches you like it came from home.
+    </p>
+    <div class="story__highlights">
+      {% for highlight in story_highlights %}
+      <div>
+        <h3>{{ highlight.title }}</h3>
+        <p>{{ highlight.body }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="story__panel">
+    {% for panel in story_panels %}
+    <div class="panel__item">
+      <p>{{ panel.label }}</p>
+      <span>{{ panel.value }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

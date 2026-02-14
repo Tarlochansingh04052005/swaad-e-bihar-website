@@ -1,0 +1,106 @@
+{% extends "admin_base.html" %}
+{% block content %}
+<div class="panel">
+  <h2>Business Dashboard</h2>
+  <p class="muted">Live snapshot of performance, demand, and customer health.</p>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <p class="muted">Today revenue</p>
+      <p class="kpi-value">₹12,480</p>
+    </div>
+    <div class="kpi-card">
+      <p class="muted">Orders today</p>
+      <p class="kpi-value">38</p>
+    </div>
+    <div class="kpi-card">
+      <p class="muted">Avg order value</p>
+      <p class="kpi-value">₹328</p>
+    </div>
+    <div class="kpi-card">
+      <p class="muted">On-time rate</p>
+      <p class="kpi-value">94%</p>
+    </div>
+    <div class="kpi-card">
+      <p class="muted">Repeat customers</p>
+      <p class="kpi-value">27%</p>
+    </div>
+    <div class="kpi-card">
+      <p class="muted">Avg prep time</p>
+      <p class="kpi-value">18 min</p>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Trends & Insights</h2>
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h3>Weekly revenue trend</h3>
+      <div class="sparkline"></div>
+      <p class="muted">+12% vs last week</p>
+    </div>
+    <div class="chart-card">
+      <h3>Orders by day</h3>
+      <div class="sparkline"></div>
+      <p class="muted">Peak: Fri, Sat</p>
+    </div>
+    <div class="chart-card">
+      <h3>Category mix</h3>
+      <div class="bar-row">
+        <div>
+          <p class="muted">Combo</p>
+          <div class="bar"><span style="width: 48%;"></span></div>
+        </div>
+        <div>
+          <p class="muted">Thali</p>
+          <div class="bar"><span style="width: 28%;"></span></div>
+        </div>
+        <div>
+          <p class="muted">Classic</p>
+          <div class="bar"><span style="width: 16%;"></span></div>
+        </div>
+        <div>
+          <p class="muted">Plate</p>
+          <div class="bar"><span style="width: 8%;"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h3>Customer satisfaction</h3>
+      <div class="sparkline"></div>
+      <p class="muted">CSAT 4.7 / 5</p>
+    </div>
+    <div class="chart-card">
+      <h3>Delivery time trend</h3>
+      <div class="sparkline"></div>
+      <p class="muted">Stable under 35 min</p>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <h2>Quick Actions</h2>
+  <div class="grid">
+    <a class="panel" href="/admin/orders">
+      <h3>Orders</h3>
+      <p class="muted">Add orders and update delivery status.</p>
+    </a>
+    <a class="panel" href="/admin/menu">
+      <h3>Menu Items</h3>
+      <p class="muted">Add or edit dishes, prices, and categories.</p>
+    </a>
+    <a class="panel" href="/admin/story">
+      <h3>Story Content</h3>
+      <p class="muted">Update highlights and the info panel.</p>
+    </a>
+    <a class="panel" href="/admin/contact">
+      <h3>Contact Info</h3>
+      <p class="muted">Update phone, email, location, and WhatsApp link.</p>
+    </a>
+    <a class="panel" href="/admin/users">
+      <h3>Admin Users</h3>
+      <p class="muted">Add or reset admin login accounts.</p>
+    </a>
+  </div>
+</div>
+{% endblock %}

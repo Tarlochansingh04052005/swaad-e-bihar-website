@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title }} | Swaad-e-Bihar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=Archivo:wdth,wght@100,400;100,600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Archivo", sans-serif;
+        background: radial-gradient(circle at top, #f7f0e9 0%, #fdf8f3 50%, #f2e9de 100%);
+        color: #2b1f1a;
+      }
+      .dash-shell {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 32px 20px 60px;
+      }
+      .dash-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 36px;
+      }
+      .dash-brand {
+        font-family: "Fraunces", serif;
+        font-size: 1.5rem;
+        text-decoration: none;
+        color: inherit;
+      }
+      .dash-nav {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .dash-nav a {
+        text-decoration: none;
+        color: inherit;
+        font-weight: 600;
+      }
+      .dash-title {
+        font-family: "Fraunces", serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        margin-bottom: 10px;
+      }
+      .dash-subtitle {
+        max-width: 600px;
+        margin-bottom: 30px;
+      }
+      .dash-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+      }
+      .dash-card {
+        background: #fff;
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: 0 12px 30px rgba(43, 31, 26, 0.12);
+      }
+      .dash-card h2 {
+        font-family: "Fraunces", serif;
+        margin-bottom: 12px;
+      }
+      .dash-kpis {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 14px;
+      }
+      .dash-kpi {
+        background: #f9f1e8;
+        border-radius: 14px;
+        padding: 12px;
+      }
+      .kpi-value {
+        font-size: 1.4rem;
+        font-weight: 700;
+      }
+      .dash-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .dash-table th,
+      .dash-table td {
+        text-align: left;
+        padding: 10px 0;
+        border-bottom: 1px solid #efe2d6;
+      }
+      .dash-footer {
+        margin-top: 40px;
+        font-size: 0.9rem;
+        color: #6b5b52;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dash-shell">
+      <header class="dash-header">
+        <a class="dash-brand" href="/">Swaad-e-Bihar</a>
+        <nav class="dash-nav">
+          <a href="/menu">Menu</a>
+          <a href="/story">Our Story</a>
+          <a href="/order">Order</a>
+          <a href="/cart">Open Cart</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </header>
+
+      <main>
+        <h1 class="dash-title">{{ title }}</h1>
+        <p class="dash-subtitle">{{ description }}</p>
+
+        <section class="dash-grid">
+          <div class="dash-card">
+            <h2>Highlights</h2>
+            <ul>
+              {% for item in highlights %}
+              <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          <div class="dash-card">
+            <h2>KPIs</h2>
+            <div class="dash-kpis">
+              {% for kpi in kpis %}
+              <div class="dash-kpi">
+                <p class="kpi-value">{{ kpi.value }}</p>
+                <p>{{ kpi.label }}</p>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="dash-card" style="grid-column: 1 / -1;">
+            <h2>Action Queue</h2>
+            <table class="dash-table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Status</th>
+                  <th>Owner</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in queue %}
+                <tr>
+                  <td>{{ row.item }}</td>
+                  <td>{{ row.status }}</td>
+                  <td>{{ row.owner }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+
+      <footer class="dash-footer">
+        <p>© 2026 Swaad-e-Bihar. Dashboard view for {{ title }}.</p>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+{% extends "public_base.html" %}
+{% block content %}
+<section class="order" style="padding-top: 2rem;">
+  <div class="order__content">
+    <p class="eyebrow">Order in a tap</p>
+    <h2>Choose the aroma. We handle the rest.</h2>
+    <div class="order__steps">
+      <div>
+        <span>01</span>
+        <p>Pick your meal and spice level.</p>
+      </div>
+      <div>
+        <span>02</span>
+        <p>Track the cooking timeline live.</p>
+      </div>
+      <div>
+        <span>03</span>
+        <p>Get it delivered with heat-lock packaging.</p>
+      </div>
+    </div>
+  </div>
+  <form class="order__form" method="post" action="/order/request">
+    {% if order_status == "success" %}
+    <p class="form__success">Order received! We will call to confirm shortly.</p>
+    {% elif order_status == "error" %}
+    <p class="form__error">Please fill all fields before sending your order.</p>
+    {% endif %}
+    <label>
+      Name
+      <input type="text" name="name" placeholder="Your name" required />
+    </label>
+    <label>
+      Phone
+      <input type="tel" name="phone" placeholder="+91" required />
+    </label>
+    <label>
+      Delivery area
+      <input type="text" name="area" placeholder="Neighborhood" required />
+    </label>
+    <label>
+      Order details
+      <textarea name="items" placeholder="List items and spice level" required></textarea>
+    </label>
+    <label>
+      Notes (optional)
+      <textarea name="notes" placeholder="Any special requests"></textarea>
+    </label>
+    <button class="primary" type="submit">Send Order Request</button>
+    <a class="primary" href="tel:+917973193983">Call the kitchen</a>
+    <p class="form__note">Call to confirm availability and delivery time.</p>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "admin_base.html" %}
+{% block content %}
+<div class="panel" style="max-width: 640px;">
+  <h2>Edit Highlight</h2>
+  <form method="post">
+    <div class="field">
+      <label for="title">Title</label>
+      <input id="title" name="title" type="text" value="{{ highlight.title }}" required />
+    </div>
+    <div class="field">
+      <label for="body">Body</label>
+      <input id="body" name="body" type="text" value="{{ highlight.body }}" required />
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Save Changes</button>
+      <a class="btn secondary" href="/admin/story">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

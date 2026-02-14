@@ -1,0 +1,25 @@
+{% extends "admin_base.html" %}
+{% block content %}
+<div class="panel" style="max-width: 680px;">
+  <h2>Contact Info</h2>
+  <form method="post">
+    <div class="field">
+      <label for="phone">Phone</label>
+      <input id="phone" name="phone" type="text" value="{{ contact.phone }}" required />
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" value="{{ contact.email }}" required />
+    </div>
+    <div class="field">
+      <label for="location">Location</label>
+      <input id="location" name="location" type="text" value="{{ contact.location }}" required />
+    </div>
+    <div class="field">
+      <label for="whatsapp">WhatsApp Link</label>
+      <input id="whatsapp" name="whatsapp" type="text" value="{{ contact.whatsapp }}" required />
+    </div>
+    <button class="btn" type="submit">Update Contact Info</button>
+  </form>
+</div>
+{% endblock %}

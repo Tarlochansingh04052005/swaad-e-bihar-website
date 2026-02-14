@@ -1,0 +1,17 @@
+{% extends "admin_base.html" %}
+{% block content %}
+<div class="panel" style="max-width: 560px;">
+  <h2>Reset Password</h2>
+  <p class="muted">Reset password for {{ user.email }}.</p>
+  <form method="post">
+    <div class="field">
+      <label for="password">New Password</label>
+      <input id="password" name="password" type="password" required />
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Update Password</button>
+      <a class="btn secondary" href="/admin/users">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

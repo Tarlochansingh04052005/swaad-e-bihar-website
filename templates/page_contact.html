@@ -1,0 +1,22 @@
+{% extends "public_base.html" %}
+{% block content %}
+<section class="contact" style="padding-top: 2rem;">
+  <div class="contact__wrap">
+    <div>
+      <p class="eyebrow">Let's connect</p>
+      <h2>Ready for a Bihar feast?</h2>
+      <p>
+        Text us on WhatsApp, schedule a catering tasting, or drop by our pickup
+        window.
+      </p>
+    </div>
+    <div class="contact__card">
+      <p>Contact</p>
+      <h3>{{ contact.phone }}</h3>
+      <p>{{ contact.email }}</p>
+      <p>{{ contact.location }}</p>
+      <a class="ghost" href="{{ contact.whatsapp }}">Chat on WhatsApp</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

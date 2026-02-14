@@ -1,0 +1,25 @@
+{% extends "public_base.html" %}
+{% block content %}
+<section class="order" style="padding-top: 2rem;">
+  <div class="order__content">
+    <p class="eyebrow">Your profile</p>
+    <h2>Update your details.</h2>
+    <p>Keep your delivery info current for faster checkout.</p>
+  </div>
+  <form class="order__form" method="post" style="max-width: 560px;">
+    <label>
+      Name
+      <input type="text" name="name" value="{{ customer.name }}" required />
+    </label>
+    <label>
+      Phone
+      <input type="text" name="phone" value="{{ customer.phone }}" required />
+    </label>
+    <label>
+      Address
+      <textarea name="address" required>{{ customer.address }}</textarea>
+    </label>
+    <button class="primary" type="submit">Save profile</button>
+  </form>
+</section>
+{% endblock %}

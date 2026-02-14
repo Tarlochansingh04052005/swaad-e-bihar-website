@@ -1,0 +1,37 @@
+{% extends "public_base.html" %}
+{% block content %}
+<section class="menu" style="padding-top: 2rem;">
+  <div class="section__title">
+    <p class="eyebrow">Customer dashboard</p>
+    <h2>Welcome back, {{ customer.name }}.</h2>
+  </div>
+
+  <div class="panel" style="margin-top: 2rem;">
+    <h2>Your recent orders</h2>
+    {% if orders %}
+    <table>
+      <thead>
+        <tr>
+          <th>Order</th>
+          <th>Status</th>
+          <th>Total</th>
+          <th>Placed</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td>{{ order.items }}</td>
+          <td><span class="badge">{{ order.status }}</span></td>
+          <td>₹{{ order.total_amount }}</td>
+          <td>{{ order.created_at }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="muted">No orders yet. Place your first order to see it here.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

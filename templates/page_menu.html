@@ -1,0 +1,27 @@
+{% extends "public_base.html" %}
+{% block content %}
+<section class="menu" style="padding-top: 2rem;">
+  <div class="section__title">
+    <p class="eyebrow">Signature spreads</p>
+    <h2>Cloud kitchen menu, plated with care.</h2>
+  </div>
+  <div class="menu__grid">
+    {% for item in menu_items %}
+    <article class="menu__card">
+      {% if item.image_path %}
+      <img src="/uploads/{{ item.image_path }}" alt="{{ item.name }}" />
+      {% endif %}
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.description }}</p>
+      <div class="menu__meta">
+        <span>{{ item.category }}</span>
+        <span>₹{{ item.price }}</span>
+      </div>
+      <form method="post" action="/cart/add/{{ item.id }}">
+        <button class="primary" type="submit">Add to cart</button>
+      </form>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
