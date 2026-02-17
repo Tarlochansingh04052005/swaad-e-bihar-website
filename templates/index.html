@@ -46,7 +46,13 @@
           <a href="/track">Track</a>
           <a href="/cart">Open Cart</a>
           <a href="/contact">Contact</a>
+          {% if session.get("admin_user_id") %}
+          <a href="/admin/logout">Logout</a>
+          {% elif session.get("customer_user_id") %}
+          <a href="/customer/logout">Logout</a>
+          {% else %}
           <a href="/login">Login</a>
+          {% endif %}
         </div>
         <a class="nav__cta" href="/order">Order Now</a>
       </nav>
