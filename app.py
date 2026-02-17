@@ -179,6 +179,7 @@ def sitemap_xml():
         url_for("menu_portal", _external=True),
         url_for("story_page", _external=True),
         url_for("order_page", _external=True),
+        url_for("track_order", _external=True),
         url_for("cart_page", _external=True),
         url_for("contact_page", _external=True),
         url_for("login", _external=True),
@@ -230,6 +231,39 @@ def order_page():
     context = get_home_context()
     context["order_status"] = request.args.get("order")
     return render_template("page_order.html", **context)
+
+
+@app.route("/track", methods=["GET", "POST"])
+def track_order():
+    order = None
+    events = []
+    if request.method == "POST":
+        order_reference = request.form.get("order_reference", "").strip()
+        phone = request.form.get("phone", "").strip()
+        if not order_reference or not phone:
+            flash("Order reference and phone are required.", "error")
+            return redirect(url_for("track_order"))
+        conn = get_db_connection()
+        order = conn.execute(
+            """
+            SELECT * FROM orders
+            WHERE (order_reference = ? OR CAST(id AS TEXT) = ?)
+              AND phone = ?
+            ORDER BY created_at DESC, id DESC
+            LIMIT 1
+            """,
+            (order_reference, order_reference, phone),
+        ).fetchone()
+        if not order:
+            conn.close()
+            flash("We could not find that order. Check the reference and phone.", "error")
+            return redirect(url_for("track_order"))
+        events = conn.execute(
+            "SELECT * FROM order_events WHERE order_id = ? ORDER BY created_at DESC, id DESC",
+            (order["id"],),
+        ).fetchall()
+        conn.close()
+    return render_template("page_track.html", order=order, events=events)
 
 
 @app.route("/cart")
