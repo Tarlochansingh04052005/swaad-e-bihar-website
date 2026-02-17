@@ -676,6 +676,7 @@ def get_home_context():
     menu_items = conn.execute(
         "SELECT * FROM menu_items ORDER BY sort_order, id"
     ).fetchall()
+    menu_items_count = conn.execute("SELECT COUNT(*) FROM menu_items").fetchone()[0]
     story_highlights = conn.execute(
         "SELECT * FROM story_highlights ORDER BY id"
     ).fetchall()
@@ -686,6 +687,7 @@ def get_home_context():
     conn.close()
     return {
         "menu_items": menu_items,
+        "menu_items_count": menu_items_count,
         "story_highlights": story_highlights,
         "story_panels": story_panels,
         "contact": contact,
