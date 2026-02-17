@@ -28,10 +28,38 @@
           {% endfor %}
         </select>
       </div>
+      <div class="field">
+        <label for="order_reference">Order Reference</label>
+        <input id="order_reference" name="order_reference" type="text" value="{{ order.order_reference }}" />
+      </div>
+      <div class="field">
+        <label for="payment_method">Payment Method</label>
+        <select id="payment_method" name="payment_method">
+          {% for option in ["Cash", "UPI", "Card", "Wallet"] %}
+          <option value="{{ option }}" {% if order.payment_method == option %}selected{% endif %}>{{ option }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="payment_status">Payment Status</label>
+        <select id="payment_status" name="payment_status">
+          {% for option in ["Unpaid", "Pending", "Paid", "Refunded"] %}
+          <option value="{{ option }}" {% if order.payment_status == option %}selected{% endif %}>{{ option }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="source_channel">Source Channel</label>
+        <input id="source_channel" name="source_channel" type="text" value="{{ order.source_channel }}" />
+      </div>
     </div>
     <div class="field">
       <label for="items">Items</label>
       <textarea id="items" name="items" required>{{ order.items }}</textarea>
+    </div>
+    <div class="field">
+      <label for="legal_notes">Legal Notes</label>
+      <textarea id="legal_notes" name="legal_notes">{{ order.legal_notes }}</textarea>
     </div>
     <div class="field">
       <label for="notes">Notes</label>

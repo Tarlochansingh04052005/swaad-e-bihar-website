@@ -1,0 +1,25 @@
+{% extends "public_base.html" %}
+{% block content %}
+<section class="order" style="padding-top: 2rem;">
+  <div class="order__content">
+    <p class="eyebrow">Sign in</p>
+    <h2>Welcome back.</h2>
+    <p>Use your email and password to access your account.</p>
+  </div>
+  <form class="order__form" method="post" style="max-width: 520px;">
+    {% if error %}
+    <p class="form__error">{{ error }}</p>
+    {% endif %}
+    <label>
+      Email
+      <input type="email" name="email" placeholder="you@example.com" required />
+    </label>
+    <label>
+      Password
+      <input type="password" name="password" required />
+    </label>
+    <button class="primary" type="submit">Login</button>
+    <p class="form__note">New here? <a href="/customer/register">Create a customer account</a>.</p>
+  </form>
+</section>
+{% endblock %}

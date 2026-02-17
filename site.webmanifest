@@ -1,0 +1,19 @@
+{
+  "name": "Swaad-e-Bihar",
+  "short_name": "Swaad-e-Bihar",
+  "icons": [
+    {
+      "src": "/static/logo.png.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/static/logo.png.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ],
+  "theme_color": "#c6532b",
+  "background_color": "#f4efe7",
+  "display": "standalone"
+}

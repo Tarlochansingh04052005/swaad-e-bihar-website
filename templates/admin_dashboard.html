@@ -6,27 +6,27 @@
   <div class="kpi-grid">
     <div class="kpi-card">
       <p class="muted">Today revenue</p>
-      <p class="kpi-value">₹12,480</p>
+      <p class="kpi-value">{{ kpis.today_revenue }}</p>
     </div>
     <div class="kpi-card">
       <p class="muted">Orders today</p>
-      <p class="kpi-value">38</p>
+      <p class="kpi-value">{{ kpis.orders_today }}</p>
     </div>
     <div class="kpi-card">
       <p class="muted">Avg order value</p>
-      <p class="kpi-value">₹328</p>
+      <p class="kpi-value">{{ kpis.avg_order_value }}</p>
     </div>
     <div class="kpi-card">
       <p class="muted">On-time rate</p>
-      <p class="kpi-value">94%</p>
+      <p class="kpi-value">{{ kpis.on_time_rate }}</p>
     </div>
     <div class="kpi-card">
       <p class="muted">Repeat customers</p>
-      <p class="kpi-value">27%</p>
+      <p class="kpi-value">{{ kpis.repeat_rate }}</p>
     </div>
     <div class="kpi-card">
-      <p class="muted">Avg prep time</p>
-      <p class="kpi-value">18 min</p>
+      <p class="muted">Active menu items</p>
+      <p class="kpi-value">{{ kpis.menu_items }}</p>
     </div>
   </div>
 </div>
@@ -35,45 +35,34 @@
   <h2>Trends & Insights</h2>
   <div class="chart-grid">
     <div class="chart-card">
-      <h3>Weekly revenue trend</h3>
-      <div class="sparkline"></div>
-      <p class="muted">+12% vs last week</p>
-    </div>
-    <div class="chart-card">
-      <h3>Orders by day</h3>
-      <div class="sparkline"></div>
-      <p class="muted">Peak: Fri, Sat</p>
-    </div>
-    <div class="chart-card">
-      <h3>Category mix</h3>
-      <div class="bar-row">
-        <div>
-          <p class="muted">Combo</p>
-          <div class="bar"><span style="width: 48%;"></span></div>
-        </div>
-        <div>
-          <p class="muted">Thali</p>
-          <div class="bar"><span style="width: 28%;"></span></div>
-        </div>
-        <div>
-          <p class="muted">Classic</p>
-          <div class="bar"><span style="width: 16%;"></span></div>
-        </div>
-        <div>
-          <p class="muted">Plate</p>
-          <div class="bar"><span style="width: 8%;"></span></div>
-        </div>
+      <h3>Revenue (last 7 days)</h3>
+      {% for row in revenue_trend %}
+      <div class="trend-row">
+        <span class="trend-label">{{ row.label }}</span>
+        <div class="bar"><span class="bar-fill" data-width="{{ row.width }}"></span></div>
+        <span class="trend-value">₹{{ row.value | round(0) }}</span>
       </div>
+      {% endfor %}
     </div>
     <div class="chart-card">
-      <h3>Customer satisfaction</h3>
-      <div class="sparkline"></div>
-      <p class="muted">CSAT 4.7 / 5</p>
+      <h3>Orders (last 7 days)</h3>
+      {% for row in orders_trend %}
+      <div class="trend-row">
+        <span class="trend-label">{{ row.label }}</span>
+        <div class="bar"><span class="bar-fill" data-width="{{ row.width }}"></span></div>
+        <span class="trend-value">{{ row.value | int }}</span>
+      </div>
+      {% endfor %}
     </div>
     <div class="chart-card">
-      <h3>Delivery time trend</h3>
-      <div class="sparkline"></div>
-      <p class="muted">Stable under 35 min</p>
+      <h3>Menu category mix</h3>
+      {% for row in category_mix %}
+      <div class="trend-row">
+        <span class="trend-label">{{ row.label }}</span>
+        <div class="bar"><span class="bar-fill" data-width="{{ row.width }}"></span></div>
+        <span class="trend-value">{{ row.count }}</span>
+      </div>
+      {% endfor %}
     </div>
   </div>
 </div>
@@ -81,6 +70,13 @@
 <div class="panel">
   <h2>Quick Actions</h2>
   <div class="grid">
+    <div class="panel">
+      <h3>Clear all orders</h3>
+      <p class="muted">Remove every order from the system.</p>
+      <form method="post" action="/admin/orders/clear">
+        <button class="btn danger" type="submit">Clear Orders</button>
+      </form>
+    </div>
     <a class="panel" href="/admin/orders">
       <h3>Orders</h3>
       <p class="muted">Add orders and update delivery status.</p>

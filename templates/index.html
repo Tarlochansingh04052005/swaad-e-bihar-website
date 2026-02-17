@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Swaad-e-Bihar | Cloud Kitchen</title>
     <meta name="description" content="Swaad-e-Bihar is a cloud kitchen serving bold, authentic Bihari flavors with fast delivery." />
+    <meta property="og:title" content="Swaad-e-Bihar | Cloud Kitchen" />
+    <meta property="og:description" content="Swaad-e-Bihar is a cloud kitchen serving bold, authentic Bihari flavors with fast delivery." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:image" content="{{ url_for('static', filename='logo.png.jpeg', _external=True) }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Swaad-e-Bihar | Cloud Kitchen" />
+    <meta name="twitter:description" content="Swaad-e-Bihar is a cloud kitchen serving bold, authentic Bihari flavors with fast delivery." />
+    <meta name="twitter:image" content="{{ url_for('static', filename='logo.png.jpeg', _external=True) }}" />
+    <link rel="canonical" href="{{ request.url }}" />
+    <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.png.jpeg') }}" />
+    <link rel="icon" sizes="32x32" type="image/jpeg" href="{{ url_for('static', filename='logo.png.jpeg') }}" />
+    <link rel="icon" sizes="16x16" type="image/jpeg" href="{{ url_for('static', filename='logo.png.jpeg') }}" />
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='logo.png.jpeg') }}" />
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +45,7 @@
           <a href="/order">Order</a>
           <a href="/cart">Open Cart</a>
           <a href="/contact">Contact</a>
-          <a href="/customer/login">Login</a>
+          <a href="/login">Login</a>
         </div>
         <a class="nav__cta" href="/order">Order Now</a>
       </nav>
@@ -89,6 +104,16 @@
         </div>
       </div>
     </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="toast-stack" role="status" aria-live="polite">
+        {% for category, message in messages %}
+        <div class="toast toast--{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
 
     <main>
       <section id="menu" class="menu">
@@ -222,7 +247,12 @@
         <a href="#order">Order</a>
       </div>
     </footer>
-
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+    </script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
   </body>
 </html>

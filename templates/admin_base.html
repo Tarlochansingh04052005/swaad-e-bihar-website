@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ title or "Admin" }} | Swaad-e-Bihar</title>
+    <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='logo.png.jpeg') }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -76,8 +77,11 @@
       }
       .chart-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 20px;
+      }
+      .chart-card h3 {
+        margin-top: 0;
       }
       .chart-card {
         background: #fff;
@@ -103,6 +107,20 @@
         display: grid;
         gap: 8px;
       }
+      .trend-row {
+        display: grid;
+        grid-template-columns: 60px 1fr 80px;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .trend-label {
+        font-weight: 600;
+      }
+      .trend-value {
+        text-align: right;
+        font-weight: 600;
+      }
       .bar {
         height: 10px;
         border-radius: 999px;
@@ -112,6 +130,7 @@
       .bar > span {
         display: block;
         height: 100%;
+        width: 0;
         background: #c6532b;
       }
       .grid {
@@ -156,6 +175,11 @@
         background: #fff;
         color: #2b1f1a;
       }
+      .btn.danger {
+        background: #8a3520;
+        border-color: #8a3520;
+        color: #fff;
+      }
       table {
         width: 100%;
         border-collapse: collapse;
@@ -176,6 +200,39 @@
         color: #6b5b52;
         font-size: 0.95rem;
       }
+      .toast-stack {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        display: grid;
+        gap: 10px;
+        z-index: 20;
+      }
+      .toast {
+        background: #2b1f1a;
+        color: #fff;
+        padding: 12px 16px;
+        border-radius: 14px;
+        box-shadow: 0 16px 30px rgba(43, 31, 26, 0.2);
+        font-weight: 600;
+        animation: toast-in 0.4s ease;
+      }
+      .toast--error {
+        background: #8a3520;
+      }
+      .toast--success {
+        background: #2f4f3a;
+      }
+      @keyframes toast-in {
+        from {
+          opacity: 0;
+          transform: translateY(-8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
     </style>
   </head>
   <body>
@@ -194,7 +251,29 @@
         </nav>
         {% endif %}
       </header>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="toast-stack" role="status" aria-live="polite">
+          {% for category, message in messages %}
+          <div class="toast toast--{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      {% endwith %}
       {% block content %}{% endblock %}
     </div>
   </body>
+  <script>
+    document.querySelectorAll(".bar-fill").forEach((bar) => {
+      const width = bar.getAttribute("data-width") || "0";
+      bar.style.width = `${width}%`;
+    });
+    document.querySelectorAll(".toast").forEach((toast) => {
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(-6px)";
+        setTimeout(() => toast.remove(), 250);
+      }, 3500);
+    });
+  </script>
 </html>

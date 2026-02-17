@@ -2,6 +2,10 @@
 {% block content %}
 <div class="panel">
   <h2>Orders</h2>
+  <div class="actions" style="margin-bottom: 12px;">
+    <a class="btn secondary" href="/admin/orders/export">Export Orders CSV</a>
+    <a class="btn secondary" href="/admin/audit/export">Export Audit CSV</a>
+  </div>
   <form method="post">
     <div class="grid">
       <div class="field">
@@ -30,10 +34,40 @@
           <option value="Cancelled">Cancelled</option>
         </select>
       </div>
+      <div class="field">
+        <label for="order_reference">Order Reference</label>
+        <input id="order_reference" name="order_reference" type="text" placeholder="Auto-generated if blank" />
+      </div>
+      <div class="field">
+        <label for="payment_method">Payment Method</label>
+        <select id="payment_method" name="payment_method">
+          <option value="Cash">Cash</option>
+          <option value="UPI">UPI</option>
+          <option value="Card">Card</option>
+          <option value="Wallet">Wallet</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="payment_status">Payment Status</label>
+        <select id="payment_status" name="payment_status">
+          <option value="Unpaid">Unpaid</option>
+          <option value="Pending">Pending</option>
+          <option value="Paid">Paid</option>
+          <option value="Refunded">Refunded</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="source_channel">Source Channel</label>
+        <input id="source_channel" name="source_channel" type="text" placeholder="Website, phone, walk-in" />
+      </div>
     </div>
     <div class="field">
       <label for="items">Items</label>
       <textarea id="items" name="items" required></textarea>
+    </div>
+    <div class="field">
+      <label for="legal_notes">Legal Notes</label>
+      <textarea id="legal_notes" name="legal_notes" placeholder="Invoice notes, disputes, compliance"></textarea>
     </div>
     <div class="field">
       <label for="notes">Notes</label>
@@ -48,25 +82,37 @@
   <table>
     <thead>
       <tr>
+        <th>Ref</th>
         <th>Customer</th>
         <th>Phone</th>
         <th>Area</th>
         <th>Status</th>
         <th>Total</th>
+        <th>Paid</th>
         <th>Created</th>
+        <th>Updated</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       {% for order in orders %}
       <tr>
+        <td>{{ order.order_reference or order.id }}</td>
         <td>{{ order.customer_name }}</td>
         <td>{{ order.phone }}</td>
         <td>{{ order.delivery_area }}</td>
         <td><span class="badge">{{ order.status }}</span></td>
         <td>₹{{ order.total_amount }}</td>
+        <td>{{ order.payment_status or "Unpaid" }}</td>
         <td>{{ order.created_at }}</td>
+        <td>{{ order.updated_at or order.created_at }}</td>
         <td class="actions">
+          <form method="post" action="/admin/orders/{{ order.id }}/accept">
+            <button class="btn secondary" type="submit">Accept</button>
+          </form>
+          <form method="post" action="/admin/orders/{{ order.id }}/reject">
+            <button class="btn danger" type="submit">Reject</button>
+          </form>
           <a class="btn secondary" href="/admin/orders/{{ order.id }}/edit">Edit</a>
           <form method="post" action="/admin/orders/{{ order.id }}/delete">
             <button class="btn" type="submit">Delete</button>

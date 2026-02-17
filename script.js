@@ -26,3 +26,16 @@ ghostButtons.forEach((button) => {
   });
 });
 
+const dismissToasts = () => {
+  const toasts = document.querySelectorAll(".toast");
+  toasts.forEach((toast) => {
+    setTimeout(() => {
+      toast.style.opacity = "0";
+      toast.style.transform = "translateY(-6px)";
+      setTimeout(() => toast.remove(), 250);
+    }, 3500);
+  });
+};
+
+dismissToasts();
+
