@@ -34,14 +34,31 @@
         <span>Total</span>
         <span>₹{{ total }}</span>
       </div>
-      <div class="hero__actions" style="margin-top: 1.5rem;">
-        <button class="primary" type="button">Pay now</button>
-        <a class="ghost" href="tel:+917973193983">Call to order</a>
-        <form method="post" action="/cart/clear">
-          <button class="ghost" type="submit">Clear cart</button>
-        </form>
-      </div>
-      <p class="form__note" style="margin-top: 0.5rem;">Payment is a placeholder for now.</p>
+      <form class="order__form" method="post" action="/cart/checkout" style="margin-top: 1.5rem;">
+        <label>
+          Name
+          <input type="text" name="name" value="{{ customer.name if customer }}" required />
+        </label>
+        <label>
+          Phone
+          <input type="text" name="phone" value="{{ customer.phone if customer }}" required />
+        </label>
+        <label>
+          Delivery area
+          <input type="text" name="area" value="{{ customer.address if customer }}" required />
+        </label>
+        <label>
+          Notes (optional)
+          <textarea name="notes" placeholder="Any special instructions"></textarea>
+        </label>
+        <div class="hero__actions" style="margin-top: 1rem;">
+          <button class="primary" type="submit">Place order</button>
+          <a class="ghost" href="tel:+917973193983">Call to order</a>
+        </div>
+      </form>
+      <form method="post" action="/cart/clear" style="margin-top: 0.8rem;">
+        <button class="ghost" type="submit">Clear cart</button>
+      </form>
       {% else %}
       <p>Your cart is empty. Add items from the menu to get started.</p>
       <div class="hero__actions" style="margin-top: 1.5rem;">

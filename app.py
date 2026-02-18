@@ -240,6 +240,10 @@ def track_order():
     if request.method == "POST":
         order_reference = request.form.get("order_reference", "").strip()
         phone = request.form.get("phone", "").strip()
+    else:
+        order_reference = request.args.get("ref", "").strip()
+        phone = request.args.get("phone", "").strip()
+    if order_reference and phone:
         if not order_reference or not phone:
             flash("Order reference and phone are required.", "error")
             return redirect(url_for("track_order"))
@@ -263,7 +267,13 @@ def track_order():
             (order["id"],),
         ).fetchall()
         conn.close()
-    return render_template("page_track.html", order=order, events=events)
+    return render_template(
+        "page_track.html",
+        order=order,
+        events=events,
+        prefill_ref=order_reference,
+        prefill_phone=phone,
+    )
 
 
 @app.route("/cart")
@@ -272,13 +282,87 @@ def cart_page():
     cart_items, subtotal = get_cart_items(cart)
     delivery_fee = 20 if subtotal > 0 else 0
     total = subtotal + delivery_fee
+    customer = get_customer_context()
     return render_template(
         "page_cart.html",
         cart_items=cart_items,
         subtotal=subtotal,
         delivery_fee=delivery_fee,
         total=total,
+        customer=customer,
     )
+
+
+@app.route("/cart/checkout", methods=["POST"])
+def cart_checkout():
+    cart = get_cart()
+    cart_items, subtotal = get_cart_items(cart)
+    if not cart_items:
+        flash("Your cart is empty.", "error")
+        return redirect(url_for("cart_page"))
+    name = request.form.get("name", "").strip()
+    phone = request.form.get("phone", "").strip()
+    area = request.form.get("area", "").strip()
+    notes = request.form.get("notes", "").strip()
+    if not name or not phone or not area:
+        flash("Name, phone, and delivery area are required.", "error")
+        return redirect(url_for("cart_page"))
+    delivery_fee = 20 if subtotal > 0 else 0
+    total = round(subtotal + delivery_fee, 2)
+    items_text = ", ".join([f"{item['name']} x{item['qty']}" for item in cart_items])
+    customer_id = session.get("customer_user_id")
+    order_reference = generate_order_reference()
+    conn = get_db_connection()
+    cursor = conn.execute(
+        """
+        INSERT INTO orders (
+            customer_name,
+            phone,
+            delivery_area,
+            items,
+            total_amount,
+            status,
+            order_reference,
+            payment_method,
+            payment_status,
+            source_channel,
+            notes,
+            customer_id,
+            updated_at
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        """,
+        (
+            name,
+            phone,
+            area,
+            items_text,
+            total,
+            "New",
+            order_reference,
+            "Cash",
+            "Pending",
+            "Website-Cart",
+            notes,
+            customer_id,
+        ),
+    )
+    order_id = cursor.lastrowid
+    log_order_event(conn, order_id, "New", "Cart checkout", "customer", customer_id)
+    log_audit_event(
+        conn,
+        "customer",
+        customer_id,
+        "create",
+        "order",
+        order_id,
+        f"order_reference={order_reference}",
+    )
+    conn.commit()
+    conn.close()
+    session.pop("cart", None)
+    flash(f"Order placed. Reference: {order_reference}", "success")
+    return redirect(url_for("track_order", ref=order_reference, phone=phone))
 
 
 @app.route("/cart/add/<int:item_id>", methods=["POST"])

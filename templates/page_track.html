@@ -9,11 +9,11 @@
   <form class="order__form" method="post" style="max-width: 560px;">
     <label>
       Order reference
-      <input type="text" name="order_reference" placeholder="ORD-20260217-ABC123" required />
+      <input type="text" name="order_reference" placeholder="ORD-20260217-ABC123" value="{{ prefill_ref }}" required />
     </label>
     <label>
       Phone
-      <input type="text" name="phone" placeholder="Your phone number" required />
+      <input type="text" name="phone" placeholder="Your phone number" value="{{ prefill_phone }}" required />
     </label>
     <button class="primary" type="submit">Track order</button>
   </form>
